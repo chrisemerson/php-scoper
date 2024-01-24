@@ -37,6 +37,7 @@ final readonly class SymbolsConfiguration
         ?SymbolRegistry $excludedClasses = null,
         ?SymbolRegistry $excludedFunctions = null,
         ?SymbolRegistry $excludedConstants = null,
+        array $additionalFileExtensionsToScope = [],
     ): self {
         return new self(
             $exposeGlobalConstants,
@@ -50,6 +51,7 @@ final readonly class SymbolsConfiguration
             $excludedClasses ?? SymbolRegistry::create(),
             $excludedFunctions ?? SymbolRegistry::create(),
             $excludedConstants ?? SymbolRegistry::createForConstants(),
+            $additionalFileExtensionsToScope,
         );
     }
 
@@ -65,6 +67,7 @@ final readonly class SymbolsConfiguration
         private SymbolRegistry $excludedClasses,
         private SymbolRegistry $excludedFunctions,
         private SymbolRegistry $excludedConstants,
+        private array $additionalFileExtensionsToScope,
     ) {
     }
 
@@ -121,5 +124,10 @@ final readonly class SymbolsConfiguration
     public function getExcludedConstants(): SymbolRegistry
     {
         return $this->excludedConstants;
+    }
+
+    public function getAdditionalFileExtensionsToScope(): array
+    {
+        return $this->additionalFileExtensionsToScope;
     }
 }

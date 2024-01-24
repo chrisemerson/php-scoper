@@ -102,6 +102,11 @@ final readonly class SymbolsConfigurationFactory
             ),
         );
 
+        $additionalFileExtensionsToScope = $this->retrieveElements(
+            $config,
+            ConfigurationKeys::ADDITIONAL_PHP_EXTENSIONS_KEYWORD
+        );
+
         return SymbolsConfiguration::create(
             $exposeGlobalConstants,
             $exposeGlobalClasses,
@@ -129,6 +134,7 @@ final readonly class SymbolsConfigurationFactory
             $excludedClasses,
             $excludedFunctions,
             $excludedConstants,
+            $additionalFileExtensionsToScope,
         );
     }
 

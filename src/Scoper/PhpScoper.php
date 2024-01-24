@@ -27,7 +27,8 @@ use function preg_match as native_preg_match;
 
 final readonly class PhpScoper implements Scoper
 {
-    private const FILE_PATH_PATTERN = '/\.php$/';
+    private string $filePathPattern;
+
     private const NOT_FILE_BINARY = '/\..+?$/';
     private const PHP_TAG = '/^<\?php/';
     private const PHP_BINARY = '/^#!.+?php.*\n{1,}<\?php/';
@@ -38,7 +39,9 @@ final readonly class PhpScoper implements Scoper
         private TraverserFactory $traverserFactory,
         private Printer $printer,
         private Lexer $lexer,
+        array $fileExtensions = []
     ) {
+        $this->filePathPattern = '/\.(' . implode('|', ['php', ...$fileExtensions]) . ')$/';
     }
 
     /**
@@ -46,7 +49,7 @@ final readonly class PhpScoper implements Scoper
      */
     public function scope(string $filePath, string $contents): string
     {
-        if (!self::isPhpFile($filePath, $contents)) {
+        if (!self::isPhpFile($filePath, $contents, $this->filePathPattern)) {
             return $this->decoratedScoper->scope(...func_get_args());
         }
 
@@ -73,9 +76,9 @@ final readonly class PhpScoper implements Scoper
         );
     }
 
-    private static function isPhpFile(string $filePath, string $contents): bool
+    private static function isPhpFile(string $filePath, string $contents, string $filePathPattern): bool
     {
-        if (1 === native_preg_match(self::FILE_PATH_PATTERN, $filePath)) {
+        if (1 === native_preg_match($filePathPattern, $filePath)) {
             return true;
         }
 
