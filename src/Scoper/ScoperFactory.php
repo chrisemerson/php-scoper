@@ -73,7 +73,7 @@ class ScoperFactory
                 ),
                 $this->printer,
                 $this->lexer,
-                $configuration->getSymbolsConfiguration()->getAdditionalFileExtensionsToScope()
+                $configuration->getSymbolsConfiguration()->getAdditionalFileExtensionsToScope()[0]
             ),
             $prefix,
             $configuration->getPatcher(),
