@@ -51,5 +51,4 @@ return [
             );
         },
     ],
-    'additional-php-extensions' => ['inc']
 ];
